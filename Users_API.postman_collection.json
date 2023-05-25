@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "f6c3850b-575d-4dbc-850d-a88c2d256a7c",
+		"name": "Users_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10060393"
+	},
+	"item": [
+		{
+			"name": "Get all Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=> {\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const ResponseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"user 1 user id is 1\", ()=>{\r",
+							"pm.expect(ResponseData[0].id).to.eql(1);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URI}}/api/v1/Users",
+					"host": [
+						"{{URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"Users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//let r = (Math.random() + 1).toString(36).substring(7);\r",
+							"// pm.environment.set(\"username_env\", r);\r",
+							"// pm.environment.set(\"password_env\", r);\r",
+							"\r",
+							"\r",
+							"pm.environment.set(\"username_env\", data.UserName);\r",
+							"pm.environment.set(\"password_env\", data.Password);\r",
+							"\r",
+							"console.log(data.UserName)\r",
+							"console.log(data.Password)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"const ResponseData=pm.response.json();\r",
+							"pm.test(\"Username and Password validations\", ()=>{\r",
+							"    pm.expect(ResponseData.userName).to.eql(pm.environment.get(\"username_env\"))\r",
+							"    pm.expect(ResponseData.password).to.eql(pm.environment.get(\"password_env\"))\r",
+							"});\r",
+							"\r",
+							"pm.environment.set(\"id_env\",ResponseData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 1,\r\n  \"userName\": \"{{username_env}}\",\r\n  \"password\": \"{{password_env}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URI}}/api/v1/Users",
+					"host": [
+						"{{URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"Users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URI}}/api/v1/Users/:id",
+					"host": [
+						"{{URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"Users",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id_env}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URI",
+			"value": "https://fakerestapi.azurewebsites.net"
+		}
+	]
+}

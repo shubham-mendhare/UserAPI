@@ -1,11 +1,10 @@
-stage('build') {
-      cmd_exec('echo "Buils starting..."')
-      dir("build_folder"){
-      bat "run.bat"
-      call "run.bat"
-  }
-}
-
-def cmd_exec(command) {
-    return bat(returnStdout: true, script: "${command}").trim()
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                bat 'run.bat'
+            }
+        }
+    }
 }

@@ -2,6 +2,7 @@ stage('build') {
       cmd_exec('echo "Buils starting..."')
       dir("build_folder"){
       bat "run.bat"
+      call "run.bat"
   }
 }
 

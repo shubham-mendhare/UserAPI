@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-               call "run.bat"
+               bat "run.bat"
             }
         }
     }
